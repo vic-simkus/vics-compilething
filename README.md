@@ -4,8 +4,8 @@ Vic's Compilething is makefile generator.  I made it because after screwing arou
 It consists of a single Python script that reads a project description file and generates a makefile.  The script has no external dependencies.  The project description file is standard Python.  For example:
 
 ```python
-from compile import SourceFile
-from compile import Context
+from make_makefile import SourceFile
+from make_makefile import Context
 import os
 
 class MyContext(Context):
@@ -26,15 +26,15 @@ def vc_init():
 
 ```
 
-The above file describes a project that contains three source files and is a shared library.  The ```vc_init``` method returns an instance of the context to the called.  It is used by the main script to read in the configuration.
+The above file describes a project that contains three source files and is a shared library.  The ```vc_init``` method returns an instance of the context to the caller.  It is used by the main script to read in the configuration.
 
 Another project may want to use a shared library described in the above configuration.  It would do so as following:
 
 ```python
 #!/usr/bin/env python
 
-from compile import SourceFile
-from compile import Context
+from make_makefile import SourceFile
+from make_makefile import Context
 
 import os
 
@@ -58,5 +58,7 @@ def vc_init():
 	return MyContext()
 
 ```
+
+Note the ```RELATED_PROJECTS``` line.
 
 All behind the scenes Makefile stuff is magically generated.
