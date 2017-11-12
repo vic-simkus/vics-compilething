@@ -205,13 +205,28 @@ class Context:
 		"""
 		Returns a string representation of all of the CXX_FLAGS
 		"""
-		return " " + " ".join(self.CXX_FLAGS) + " "
+
+		parms = list(self.CXX_FLAGS)
+
+		if self.THREADS is True:
+			parms += ["-pthread",]
+
+		return " " + " ".join(parms) + " "
+
 
 	def make_cxx_lib_flags(self):
 		"""
 		Returns a string representation of all of the CXX_LIB_FLAGS
 		"""
-		return " " + " ".join(self.CXX_LIB_FLAGS) + " "
+
+		parms = list(self.CXX_LIB_FLAGS)
+
+		if self.THREADS is True:
+			parms += ["-pthread",]
+
+
+
+		return " " + " ".join(parms) + " "
 
 	def make_cxx_exe_flags(self):
 		"""
