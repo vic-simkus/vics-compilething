@@ -150,6 +150,8 @@ class Context:
 
 	TOP_LEVEL = True
 
+	THREADS = True
+
 	#
 	# C++ compiler
 	#
@@ -215,7 +217,14 @@ class Context:
 		"""
 		Returns a string representation of all of the CXX_EXE_FLAGS
 		"""
-		return " "+ " ".join(self.CXX_EXE_FLAGS) + " "
+
+		parms = list(self.CXX_EXE_FLAGS)
+
+		if self.THREADS is True:
+			parms += ["-pthread",]
+
+
+		return " "+ " ".join(parms) + " "
 
 	def make_cxx_lib_dir_flags(self):
 		ret = []
