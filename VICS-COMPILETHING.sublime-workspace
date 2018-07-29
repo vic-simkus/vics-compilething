@@ -1,0 +1,251 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"get_message",
+				"get_message_type_by_enum"
+			],
+			[
+				"MESSAGE_TYPE",
+				"MESSAGE_TYPE_MAPPER"
+			],
+			[
+				"to",
+				"to_string"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				]
+			],
+			[
+				"Packages/Makefile/Make.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"Build With: Make"
+			]
+		],
+		"width": 461.0
+	},
+	"console":
+	{
+		"height": 249.0,
+		"history":
+		[
+			"make",
+			"make clean",
+			"make"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/opt/dev/git_work/vics-compilething"
+	],
+	"file_history":
+	[
+		"/opt/dev/git_work/vics-compilething/make_makefile.py",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HMI_SHIM/Makefile",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HMI_SHIM/src/hmi_shim.cpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HMI_SHIM/VC.py",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HMI_SHIM/HMI_SHIM.sublime-project",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/message_callbacks.cpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/HVAC_LIB.sublime-project",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/context/client_context.cpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/context/base_context.cpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/context/context.cpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/message_processor.cpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/include/lib/logger.hpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/threads/thread_registry.cpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/threads/serial_io_thread.cpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/include/lib/threads/serial_io_thread.hpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/include/lib/message_processor.hpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/include/lib/string_lib.hpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/threads/shim_listener_thread.cpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/include/lib/threads/shim_listener_thread.hpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/message_types.cpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/include/lib/hvac_types.hpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/config_entry.cpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/include/lib/configurator.hpp",
+		"/opt/dev/git_work/VIOBOARD_V1_Software/HVAC_LIB/src/configurator.cpp",
+		"/opt/dev/workspace/CPP/HVAC_LIB/HVAC_LIB.sublime-project",
+		"/opt/dev/git_work/VIOBOARD_V1_Firmware/README.md",
+		"/opt/dev/workspace/CPP/LOGIC_CORE/f",
+		"/opt/dev/workspace/CPP/HVAC_LIB/Doxyfile",
+		"/opt/dev/workspace/CPP/HVAC_LIB/VC.py",
+		"/opt/dev/workspace/CPP/HVAC_LIB/file_license_header.txt",
+		"/opt/dev/workspace/CPP/HVAC_LIB/Makefile",
+		"/opt/dev/workspace/CPP/HVAC_LIB/LICENSE.txt",
+		"/opt/dev/workspace/CPP/HVAC_LIB/src/threads/serial_io_thread.cpp",
+		"/opt/dev/workspace/CPP/HVAC_LIB/nbproject/Makefile-Debug.mk"
+	],
+	"find":
+	{
+		"height": 0.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"folders":
+	[
+		{
+			"path": "/opt/dev/git_work/vics-compilething"
+		}
+	],
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 258.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/Makefile/Make.sublime-build",
+	"project": "",
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"src/configurator.cpp"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 356.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
