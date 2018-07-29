@@ -470,7 +470,7 @@ def check_source_files(_ctx):
 	rc = True
 	for f in _ctx.SOURCE_FILES:
 		if not f.does_exist(_ctx.SOURCE_DIR):
-			print >>sys.stderr,"File not readable: " + f
+			print >>sys.stderr,"File not readable: " + str(f.full_file_name)
 			rc = False
 
 	return rc
