@@ -121,7 +121,10 @@ class Context:
 	# CXX compilation flags
 	#
 	CXX_FLAGS=["-g","-g3","-pedantic","-pedantic-errors","-Wall","-Wextra","-Werror","-Wconversion","-Wunused-parameter","-Wsign-compare","-std=c++11","-fPIC","-fexceptions"]
-	LINK_FLAGS = ["-fexceptions"]
+	#LINK_FLAGS = ["-fexceptions"]
+
+	LINK_FLAGS = []
+	LINK_SYS_LIBS = []
 
 	#
 	# List of related projects that a project needs to compile.  An entry is a string instance to the projects base directory
@@ -155,9 +158,9 @@ class Context:
 	#
 	# C++ compiler
 	#
-	CXX="g++"
+	CXX=""
 
-	LD="g++"
+	LD=""
 
 	def get_include_dirs(self):
 		return list(self.INCLUDE_DIRS)
@@ -216,13 +219,13 @@ class Context:
 
 	def make_cxx_lib_flags(self):
 		"""
-		Returns a string representation of all of the CXX_LIB_FLAGS
+		Returns a string representation of all of the CXX_LIB_FLAGS.  This is used during the linking phase of a library creation.
 		"""
 
 		parms = list(self.CXX_LIB_FLAGS)
 
 		if self.THREADS is True:
-			parms += ["-pthread",]
+			parms += ["-lpthread",]
 
 
 
@@ -230,13 +233,13 @@ class Context:
 
 	def make_cxx_exe_flags(self):
 		"""
-		Returns a string representation of all of the CXX_EXE_FLAGS
+		Returns a string representation of all of the CXX_EXE_FLAGS.  This is used during t he linking phase of an executable.
 		"""
 
 		parms = list(self.CXX_EXE_FLAGS)
 
 		if self.THREADS is True:
-			parms += ["-pthread",]
+			parms += ["-lpthread",]
 
 
 		return " "+ " ".join(parms) + " "
@@ -295,12 +298,13 @@ class Context:
 				self.makefile_fd.write(" " + self.make_object_file_name(f))
 
 		elif self.EXE_TARGET is not None:
-			self.makefile_fd.write("\t" + self.LD + self.make_cxx_link_flags() + " -o " + self.EXE_TARGET)
+			self.makefile_fd.write("\t" + self.LD + self.make_cxx_link_flags() + " -o " + self.EXE_TARGET + " " )
 
 			for f in self.SOURCE_FILES:
 				self.makefile_fd.write(" " + self.make_object_file_name(f))
 
 			self.makefile_fd.write(self.make_cxx_lib_dir_flags() + self.make_cxx_link_lib_flags() + self.make_cxx_exe_flags() );
+			self.makefile_fd.write(" " + " ".join(self.LINK_SYS_LIBS));
 		else:
 			raise RuntimeError("Either LIB_TARGET or EXE_TARGET needs to be specified.  Please fix.")
 
@@ -416,6 +420,24 @@ class Context:
 	def __str__(self):
 		return str(self.TAG) + ":"
 
+class GCCContext(Context):
+	#
+	# C++ compiler
+	#
+	CXX="g++"
+
+	LD="g++"
+
+class CLANGContext(Context):
+	#
+	# C++ compiler
+	#
+	CXX="clang-8"
+
+	LD="clang-8"
+
+	LINK_SYS_LIBS = ["-lstdc++"]
+
 ########################################################
 
 def import_project(_dir):
@@ -470,13 +492,16 @@ def check_source_files(_ctx):
 	rc = True
 	for f in _ctx.SOURCE_FILES:
 		if not f.does_exist(_ctx.SOURCE_DIR):
-			print >>sys.stderr,"File not readable: " + f
+			print >>sys.stderr,"File not readable: " + str(f.full_file_name)
 			rc = False
 
 	return rc
 
 def generate_dependencies(_ctx):
 	cmd = []
+
+	if(len(_ctx.CXX) < 1):
+		raise Exception("CXX is not specified")
 
 	cmd += [_ctx.CXX] +  _ctx.make_include_parms()
 
@@ -504,7 +529,7 @@ def generate_dependencies(_ctx):
 			for l in p.stdout:
 				_ctx.makefile_fd.write(l)
 
-			_ctx.makefile_fd.write("\tg++ " + " ".join(_ctx.make_include_parms()) + " " +  _ctx.make_cxx_flags() +  " -c " + _ctx.make_source_file_name(f) + " -o " + _ctx.make_object_file_name(f)  + "\n")
+			_ctx.makefile_fd.write("\t" + _ctx.CXX + " " + " ".join(_ctx.make_include_parms()) + " " +  _ctx.make_cxx_flags() +  " -c " + _ctx.make_source_file_name(f) + " -o " + _ctx.make_object_file_name(f)  + "\n")
 
 	return True
 
