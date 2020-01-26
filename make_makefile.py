@@ -22,7 +22,7 @@ import StringIO
 import importlib
 import datetime
 
-class SourceFile:
+class SourceFile(object):
 	"""
 	Class representing a single to be compiled source file
 	"""
@@ -65,7 +65,7 @@ class SourceFile:
 		else:
 			return fn + "." + _ext
 
-class Context:
+class Context(object):
 
 	#
 	#
@@ -428,6 +428,9 @@ class GCCContext(Context):
 
 	LD="g++"
 
+	def __init__(self):
+		super(GCCContext,self).__init__()
+
 class CLANGContext(Context):
 	#
 	# C++ compiler
@@ -437,6 +440,13 @@ class CLANGContext(Context):
 	LD="clang-8"
 
 	LINK_SYS_LIBS = ["-lstdc++"]
+
+	def __init__(self):
+		super(CLANGContext,self).__init__()
+
+		if sys.platform == "freebsd11":
+			CLANGContext.CXX = "clang"
+			CLANGContext.LD = "clang"
 
 ########################################################
 
