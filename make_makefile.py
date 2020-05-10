@@ -120,7 +120,7 @@ class Context(object):
 	#
 	# CXX compilation flags
 	#
-	CXX_FLAGS=["-g","-g3","-pedantic","-pedantic-errors","-Wall","-Wextra","-Werror","-Wconversion","-Wunused-parameter","-Wsign-compare","-std=c++11","-fPIC","-fexceptions"]
+	CXX_FLAGS=["-g","-g3","-pedantic","-pedantic-errors","-Wall","-Wextra","-Werror","-Wconversion","-Wunused-parameter","-Wsign-compare","-std=c++17","-fPIC","-fexceptions"]
 	#LINK_FLAGS = ["-fexceptions"]
 
 	LINK_FLAGS = []
