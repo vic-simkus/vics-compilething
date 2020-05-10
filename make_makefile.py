@@ -447,6 +447,11 @@ class CLANGContext(Context):
 		if sys.platform == "freebsd11":
 			CLANGContext.CXX = "clang"
 			CLANGContext.LD = "clang"
+                else:
+                    if sys.version.split('\n')[1].startswith("[GCC 6.3"):
+                        # Ugly hack to see if we're on beaglebone
+			CLANGContext.CXX = "clang-7"
+			CLANGContext.LD = "clang-7"
 
 ########################################################
 
