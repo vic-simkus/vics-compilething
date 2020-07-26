@@ -444,7 +444,7 @@ class CLANGContext(Context):
 	def __init__(self):
 		super(CLANGContext,self).__init__()
 
-		if sys.platform == "freebsd11":
+		if sys.platform == "freebsd11" or sys.platform == "freebsd12":
 			CLANGContext.CXX = "clang"
 			CLANGContext.LD = "clang"
                 else:
@@ -525,7 +525,7 @@ def generate_dependencies(_ctx):
 	for f in _ctx.SOURCE_FILES:
 		b = ""
 		wcmd = cmd + ["-MT",_ctx.make_object_file_name(f),_ctx.make_source_file_name(f)]
-		#print wcmd
+		print "Generating dependency using: " + repr(wcmd)
 
 		p = subprocess.Popen(wcmd,stdin=None,stderr=subprocess.PIPE,stdout=subprocess.PIPE)
 		p.wait()
