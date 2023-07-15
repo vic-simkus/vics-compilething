@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 
 #    Copyright 2017 Vidas Simkus
 #
@@ -18,7 +18,7 @@
 import os.path
 import sys
 import subprocess
-import StringIO
+import io
 import importlib
 import datetime
 
@@ -26,6 +26,7 @@ class SourceFile(object):
 	"""
 	Class representing a single to be compiled source file
 	"""
+
 	def __init__(self,_file_name):
 		"""
 		Constructor
@@ -41,6 +42,7 @@ class SourceFile(object):
 		"""
 		Returns True if the file exists, False otherwise
 		"""
+
 		fn = None
 		if _dir is not None:
 			fn = os.path.join(_dir,self.full_file_name)
@@ -53,6 +55,7 @@ class SourceFile(object):
 		"""
 		Returns the string file name with the specified extension.  Instance is not modified.
 		"""
+
 		fn = None
 
 		if _with_dir is False:
@@ -174,6 +177,7 @@ class Context(object):
 		Method combines OUTPUT_DIR and file name and changes the file extension to '.d'.
 		@param _file SourceFile instance
 		"""
+
 		return os.path.join(self.OUTPUT_DIR,_file.change_extension(".d"))
 
 	def make_source_file_name(self,_file):
@@ -182,6 +186,7 @@ class Context(object):
 		Method combines SOURCE_DIR and file name in the SourceFile instance.
 		@param _file SourceFile instance
 		"""
+
 		return os.path.join(self.SOURCE_DIR,_file.full_file_name)
 
 	def make_object_file_name(self,_file):
@@ -190,12 +195,14 @@ class Context(object):
 		Method combines OUTPUT_DIR and file name and changes the file extension to '.o'
 		@param _file SourceFile instance
 		"""
+
 		return os.path.join(self.OUTPUT_DIR,_file.change_extension(".o"))
 
 	def make_include_parms(self):
 		"""
 		Returns an array of include dirs and -I paramters.
 		"""
+
 		ret = []
 
 		for f in self.INCLUDE_DIRS:
@@ -354,24 +361,26 @@ class Context(object):
 		"""
 		Writes out the header portion of the makefile
 		"""
-		print >>self.makefile_fd,"""
+
+		print ("""
 #
 # This file is mechanically generated.  Any changes will most likely be lost.
-#"""
+#""",file=self.makefile_fd)
 
-		print >>self.makefile_fd,"# File generated on: " + datetime.datetime.now().isoformat()
-		print >>self.makefile_fd,"#\n"
+		print ("# File generated on: " + datetime.datetime.now().isoformat(),file=self.makefile_fd)
+		print ("#\n",file=self.makefile_fd)
 
 
 	def write_makefile_footer(self):
 		"""
 		Writes out the footer portion of the makefile
 		"""
-		print >>self.makefile_fd,"""
+
+		print ("""
 #
 # EOF
 #
-		"""
+		""", file=self.makefile_fd)
 
 	def init(self):
 		"""
@@ -384,13 +393,12 @@ class Context(object):
 		if isinstance(self.INCLUDE_DIRS,tuple):
 			self.INCLUDE_DIRS = list(self.INCLUDE_DIRS)
 
-		self.makefile_fd = StringIO.StringIO()
+		self.makefile_fd = io.StringIO()
 		self.write_makefile_header()
 
 		if self.RELATED_PROJECTS is not None:
 			for p in self.RELATED_PROJECTS:
-				print "Processing related project in: " + p
-
+				print ("Processing related project in: " + p)
 				ctx = import_project(p)
 
 				if ctx is None:
@@ -415,6 +423,7 @@ class Context(object):
 		"""
 		Finalizes the context instance
 		"""
+
 		self.makefile_fd.close()
 
 	def __str__(self):
@@ -435,23 +444,32 @@ class CLANGContext(Context):
 	#
 	# C++ compiler
 	#
-	CXX="clang-8"
+    CXX="clang-8"
 
-	LD="clang-8"
+    LD="clang-8"
 
-	LINK_SYS_LIBS = ["-lstdc++"]
+    LINK_SYS_LIBS = ["-lstdc++"]
 
-	def __init__(self):
-		super(CLANGContext,self).__init__()
+    def __init__(self):
+        super(CLANGContext,self).__init__()
 
-		if sys.platform == "freebsd11" or sys.platform == "freebsd12":
-			CLANGContext.CXX = "clang"
-			CLANGContext.LD = "clang"
-                else:
-                    if sys.version.split('\n')[1].startswith("[GCC 6.3"):
-                        # Ugly hack to see if we're on beaglebone
-			CLANGContext.CXX = "clang-7"
-			CLANGContext.LD = "clang-7"
+        if sys.platform == "freebsd11" or sys.platform == "freebsd12":
+            CLANGContext.CXX = "clang"
+            CLANGContext.LD = "clang"
+        else:
+            # Some versions of Linux do not have a newline character in the version string...            
+
+            vs = sys.version.split('\n');
+
+            if len(vs) < 2:
+                vs = vs[0]
+            else:
+                vs = vs[1]
+
+            if vs.startswith("[GCC 6.3"):
+                # Ugly hack to see if we're on beaglebone
+                CLANGContext.CXX = "clang-7"
+                CLANGContext.LD = "clang-7"
 
 ########################################################
 
@@ -464,7 +482,7 @@ def import_project(_dir):
 	# Check for existence of the module
 	f = os.path.join(_dir,"VC.py")
 	if not os.access(f,os.R_OK):
-		print >>sys.stderr, "VC.py does not exist.  Please fix"
+		print  ("VC.py does not exist.  Please fix",file = sys.stderr)
 		return None
 
 	# Save a copy of the system path
@@ -477,8 +495,8 @@ def import_project(_dir):
 
 	try:
 		m = importlib.import_module("VC")
-	except Exception,e:
-		print >>sys.stderr, "Failed to load configuration file VC.py: " + str(e)
+	except Exception as e:
+		print ( "Failed to load configuration file VC.py: " + str(e),file = sys.stderr)
 		return None
 
 	# Restore system path
@@ -507,7 +525,7 @@ def check_source_files(_ctx):
 	rc = True
 	for f in _ctx.SOURCE_FILES:
 		if not f.does_exist(_ctx.SOURCE_DIR):
-			print >>sys.stderr,"File not readable: " + str(f.full_file_name)
+			print ("File not readable: " + str(f.full_file_name),file=sys.stderr)
 			rc = False
 
 	return rc
@@ -525,7 +543,7 @@ def generate_dependencies(_ctx):
 	for f in _ctx.SOURCE_FILES:
 		b = ""
 		wcmd = cmd + ["-MT",_ctx.make_object_file_name(f),_ctx.make_source_file_name(f)]
-		print "Generating dependency using: " + repr(wcmd)
+		print ("Generating dependency using: " + repr(wcmd))
 
 		p = subprocess.Popen(wcmd,stdin=None,stderr=subprocess.PIPE,stdout=subprocess.PIPE)
 		p.wait()
@@ -534,15 +552,16 @@ def generate_dependencies(_ctx):
 			for l in p.stderr:
 				b += l
 
-			print >>sys.stderr,"Failed to process dependencies, code: " + str(p.returncode)
-			print >>sys.stderr,"cmd: " + " ".join(wcmd)
-			print >>sys.stderr,b
+			print ("Failed to process dependencies, code: " + str(p.returncode),file=sys.stderr)
+			print ("cmd: " + " ".join(wcmd),file=sys.stderr)
+			print (b,file=sys.stderr)
+
 
 			return False
 		else:
 			_ctx.makefile_fd.write("\n")
 			for l in p.stdout:
-				_ctx.makefile_fd.write(l)
+				_ctx.makefile_fd.write(l.decode("utf-8"))
 
 			_ctx.makefile_fd.write("\t" + _ctx.CXX + " " + " ".join(_ctx.make_include_parms()) + " " +  _ctx.make_cxx_flags() +  " -c " + _ctx.make_source_file_name(f) + " -o " + _ctx.make_object_file_name(f)  + "\n")
 
@@ -552,7 +571,7 @@ def process(_ctx):
 	_ctx.init()
 
 	if not check_source_files(_ctx):
-		print >>sys.stderr,"Failed file check"
+		print ("Failed file check", file=sys.stderr)
 		sys.exit(-1)
 
 	verify_output_paths(_ctx)
@@ -574,10 +593,15 @@ sys.dont_write_bytecode = True
 
 if __name__ == "__main__":
 
-	print "Currently in: " + os.getcwd()
-	ctx = import_project(os.getcwd())
+    print ("Currently in: " + os.getcwd())
+    ctx = import_project(os.getcwd())
 
-	mstr = process(ctx)
-	mfd = open("Makefile","wt")
-	mfd.write(mstr)
-	mfd.close()
+    if ctx is None:
+        # We failed 
+        exit(-1)
+
+    mstr = process(ctx)
+    mfd = open("Makefile","wt")
+
+    mfd.write(mstr)
+    mfd.close()
