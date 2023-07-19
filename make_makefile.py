@@ -444,9 +444,9 @@ class CLANGContext(Context):
 	#
 	# C++ compiler
 	#
-    CXX="clang-8"
+    CXX="clang"
 
-    LD="clang-8"
+    LD="clang"
 
     LINK_SYS_LIBS = ["-lstdc++"]
 
